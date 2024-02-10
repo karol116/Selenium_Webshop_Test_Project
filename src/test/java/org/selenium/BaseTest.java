@@ -37,7 +37,6 @@ public class BaseTest {
         edgedriver().cachePath("Drivers").setup();
 
 
-//        driver = new EdgeDriver(options);
         driver = driverManager.initializeDriver(browser);
 
         driver.get("https://www.askomdch.com");
