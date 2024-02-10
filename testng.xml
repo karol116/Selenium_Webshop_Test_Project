@@ -1,0 +1,25 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Suite1" verbose="1" thread-count="1" parallel="tests">
+    <test name="Regression1" parallel="methods">
+        <parameter name="browser" value="EDGE" />
+        <classes>
+            <class name="org.selenium.FirstTestCase">
+<!--                <methods>-->
+<!--                    <include name="buyItemWithLogIn"/>-->
+<!--                </methods>-->
+            </class>
+        </classes>
+    </test>
+<!--    <test name="Regression2" thread-count="1" parallel="methods">-->
+<!--        <parameter name="browser" value="CHROME"/>-->
+<!--        <classes>-->
+<!--            <class name="org.selenium.FirstTestCase">-->
+<!--&lt;!&ndash;                <methods>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <include name="setUp"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <include name="deleteItemFromCart"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <include name="afterTest"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                </methods>&ndash;&gt;-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+</suite>
