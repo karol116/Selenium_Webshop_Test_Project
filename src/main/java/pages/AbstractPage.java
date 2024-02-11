@@ -53,7 +53,6 @@ public abstract class AbstractPage {
     }
 
     public void waitForTextVisibleOnPage(String text) {
-
         WebElement element = driver.findElement(By.xpath("//*[text() = '" + text + "']"));
         wait.until(ExpectedConditions.visibilityOf(element));
     }

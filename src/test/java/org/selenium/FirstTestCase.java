@@ -2,35 +2,32 @@ package org.selenium;
 
 import objects.BillingAddress;
 import objects.Product;
-import org.junit.Test;
-import org.testng.AssertJUnit;
+import org.testng.annotations.Test;
 import pages.*;
 import utils.JacksonUtils;
 
 import javax.management.InstanceNotFoundException;
 import java.io.IOException;
 
-import static org.testng.AssertJUnit.assertTrue;
-
+import static org.testng.Assert.assertTrue;
 
 public class FirstTestCase extends BaseTest {
-
 
     @Test
     public void buyItemWithLogIn() throws InstanceNotFoundException, InterruptedException, IOException {
         BillingAddress billingAddress = JacksonUtils.deserializeJson("BillingAddress.json", BillingAddress.class);
         Product product = new Product(1215);
         String searchedText = product.getProductName().split(" ")[0];//fikołki
-        MainPage mainPage = new MainPage(driver);
+        MainPage mainPage = new MainPage(getDriver());
 
         AccountPage accountPage = mainPage.goToAccountPage();
         accountPage.logInAsCustomer();
-        AssertJUnit.assertTrue(accountPage.isTextVisibleOnPage("Logout"));
+        assertTrue(accountPage.isTextVisibleOnPage("Logout"));
 
         StorePage storePage = accountPage.goToStorePage();
         storePage.searchInsertedText(searchedText);
         String searchResultsText = storePage.getSearchResultsText();
-        AssertJUnit.assertTrue(searchResultsText.contains(searchedText));
+        assertTrue(searchResultsText.contains(searchedText));
 
         storePage.addProductToCart(product.getProductName());
         CartPage cartPage = storePage.goToCart();
@@ -39,17 +36,20 @@ public class FirstTestCase extends BaseTest {
         checkoutPage.
                 fillBillingForm(billingAddress).
                 selectDirectBankTransfer();
-
-        AssertJUnit.assertTrue(checkoutPage.isTextVisibleOnPage("Thank you. Your order has been received."));
+        assertTrue(checkoutPage.isTextVisibleOnPage("Thank you. Your order has been received."));
     }
 
     @Test
     public void deleteItemFromCart() throws Exception {
-        MainPage mainPage = new MainPage(driver);
+        MainPage mainPage = new MainPage(getDriver());
+
+//        Calendar calendar = Calendar.getInstance();
+//        int day = calendar.get(Calendar.DAY_OF_WEEK);
+//        System.out.println(day);
 
         AccountPage accountPage = mainPage.goToAccountPage();
         accountPage.logInAsCustomer();
-        AssertJUnit.assertTrue(accountPage.isTextVisibleOnPage("Logout"));
+        assertTrue(accountPage.isTextVisibleOnPage("Logout"));
 
         StorePage storePage = accountPage.goToStorePage();
 
@@ -57,6 +57,6 @@ public class FirstTestCase extends BaseTest {
                 .addFirstDisplayedProductToCart()
                 .goToCart();
         cartPage.deleteItem(0);
-        AssertJUnit.assertTrue(cartPage.isCartEmptyAfterRemovingItem("Your cart is currently empty."));
+        assertTrue(cartPage.isCartEmptyAfterRemovingItem("Your cart is currently empty."));
     }
 }

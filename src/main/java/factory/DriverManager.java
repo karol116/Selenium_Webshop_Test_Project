@@ -1,10 +1,8 @@
 package factory;
 
 import contants.DriverType;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -15,10 +13,8 @@ public class DriverManager {
 
     public WebDriver initializeDriver(String browser) {
         WebDriver driver;
-        String localBrowser;
         EdgeOptions edgeOptions;
         System.setProperty("webdriver.http.factory", "jdk-http-client");
-//        localBrowser = browser;//testng.xml
 
         switch (DriverType.valueOf(browser)) {
             case CHROME: {

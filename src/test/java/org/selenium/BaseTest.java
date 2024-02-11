@@ -1,61 +1,51 @@
 package org.selenium;
 
 import factory.DriverManager;
-import objects.BillingAddress;
-import objects.Product;
-import org.junit.After;
-import org.junit.Before;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+import utils.PropertyUtils;
 
-
+import java.util.Properties;
 import java.util.Set;
 
-import static io.github.bonigarcia.wdm.WebDriverManager.edgedriver;
-
 public class BaseTest {
-    WebDriver driver;
-    EdgeOptions options = new EdgeOptions();
-//    private ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    private ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-//    private void setDriver(WebDriver driver) {
-//        this.driver.set(driver);
-//    }
-
-//    public WebDriver getDriver() {
-//        return this.driver.get();
-//    }
-
-    //    @Parameters("browser")
-//    @BeforeMethod
-    @Before
-    public void setUp() {
-        String browser = System.getProperty("browser");//JVM argument
-
-        DriverManager driverManager = new DriverManager();
-        edgedriver().cachePath("Drivers").setup();
-
-
-//        driver = new EdgeDriver(options);
-        driver = driverManager.initializeDriver(browser);
-
-        driver.get("https://www.askomdch.com");
-        driver.manage().window().maximize();
-        System.out.println("Current thread: " + Thread.currentThread().getName() + ",\n" + Thread.currentThread().getId());
-//        System.out.println("Driver: " + getDriver());
+    private void setDriver(WebDriver driver) {
+        this.driver.set(driver);
     }
 
-    //    @AfterMethod
-    @After
+    public WebDriver getDriver() {
+        return this.driver.get();
+    }
+
+    @Parameters("browser")
+    @BeforeMethod
+    public void setUp(String browser) {
+//        String browser = System.getProperty("browser");//JVM argument
+        Properties properties = PropertyUtils.propertyLoader("src/test/resources/config.properties");
+        String baseUrl = properties.getProperty("baseUrl");
+
+        DriverManager driverManager = new DriverManager();
+        setDriver(driverManager.initializeDriver(browser));
+
+        getDriver().get(baseUrl);
+        getDriver().manage().window().maximize();
+        System.out.println("Current thread: " + Thread.currentThread().getName() + ",\n" + Thread.currentThread().getId());
+        System.out.println("Driver: " + getDriver());
+    }
+
+    @AfterMethod
     public void afterTest() {
-        Set<String> windowHandles = driver.getWindowHandles();
+        Set<String> windowHandles = getDriver().getWindowHandles();
         for (String windowHandle : windowHandles) {
-            driver.switchTo().window(windowHandle);
-            driver.close();
+            getDriver().switchTo().window(windowHandle);
+            getDriver().close();
         }
         System.out.println("Current thread: " + Thread.currentThread().getName() + ",\n" + Thread.currentThread().getId());
-//        System.out.println("Driver: " + getDriver());
-        driver.quit();
+        System.out.println("Driver: " + getDriver());
+        getDriver().quit();
     }
 }

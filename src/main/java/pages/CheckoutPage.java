@@ -15,7 +15,6 @@ import java.util.Map;
 
 public class CheckoutPage extends AbstractPage {
 
-
     @FindBy(xpath = "//select[@id='billing_country']")
     private WebElement countrySelect;
 

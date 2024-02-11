@@ -3,7 +3,6 @@ package pages;
 import methods.TestUtils;
 import org.openqa.selenium.WebDriver;
 
-
 public class MainPage extends AbstractPage {
     TestUtils testUtils;
 

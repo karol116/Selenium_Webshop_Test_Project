@@ -61,7 +61,6 @@ public class StorePage extends AbstractPage {
         int cartCounterNumber = 0;
         int attemptNumber = 6;
 
-
         for (int loopCounter = 0; loopCounter <= attemptNumber; loopCounter++) {
             cartCounterText = cartCounter.getText();
             cartCounterNumber = Integer.parseInt(cartCounterText);
@@ -87,8 +86,7 @@ public class StorePage extends AbstractPage {
     public StorePage addProductToCart(String productName) throws InstanceNotFoundException, InterruptedException {
         String cartCounterText = cartCounter.getText();
         int cartCounterNumber = Integer.parseInt(cartCounterText);
-//        long seconds = driver.manage().timeouts().getPageLoadTimeout().getSeconds();
-//        System.out.println("Loaded time: " + seconds);
+
         testUtils.clickElement(driver.findElement(By.xpath("//*[text()='" + productName + "']/../..//*[text()='Add to cart']")));
         waitUntilAddedProductToCart(cartCounterNumber);
         return this;
