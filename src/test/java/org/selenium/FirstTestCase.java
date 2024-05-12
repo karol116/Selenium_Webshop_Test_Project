@@ -1,5 +1,7 @@
 package org.selenium;
 
+import api.actions.SignupApi;
+import io.restassured.response.Response;
 import objects.BillingAddress;
 import objects.Product;
 import org.testng.annotations.Test;
@@ -58,5 +60,14 @@ public class FirstTestCase extends BaseTest {
                 .goToCart();
         cartPage.deleteItem(0);
         assertTrue(cartPage.isCartEmptyAfterRemovingItem("Your cart is currently empty."));
+    }
+
+    @Test
+    public void testToDelete(){
+        SignupApi signupApi = new SignupApi();
+        Response account = signupApi.getAccount();
+        System.out.println("ENDENDENDENDENDENDENDENDENDENDENDENDENDENDEND");
+        System.out.println(signupApi.getFetchRegisterNonceValueUsingGroovy());
+
     }
 }

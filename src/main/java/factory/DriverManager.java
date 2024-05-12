@@ -18,7 +18,8 @@ public class DriverManager {
 
         switch (DriverType.valueOf(browser)) {
             case CHROME: {
-                chromedriver().cachePath("Drivers").setup();
+//                chromedriver().cachePath("Drivers").setup();
+                chromedriver().clearDriverCache().setup();
                 driver = new ChromeDriver();
                 break;
             }
