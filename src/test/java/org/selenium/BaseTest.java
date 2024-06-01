@@ -4,9 +4,11 @@ import factory.DriverManager;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import utils.PropertyUtils;
 
+import java.lang.reflect.Method;
 import java.util.Properties;
 import java.util.Set;
 
@@ -23,10 +25,13 @@ public class BaseTest {
 
     @Parameters("browser")
     @BeforeMethod
-    public void setUp(String browser) {
+    public void setUp(String browser, @Optional Method method) {
 //        String browser = System.getProperty("browser");//JVM argument
         Properties properties = PropertyUtils.propertyLoader("src/test/resources/config.properties");
         String baseUrl = properties.getProperty("baseUrl");
+        if(method.getName().contains("printout")){
+            int i = 0;
+        }
 
         DriverManager driverManager = new DriverManager();
         setDriver(driverManager.initializeDriver(browser));

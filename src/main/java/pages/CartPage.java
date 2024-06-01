@@ -2,12 +2,12 @@ package pages;
 
 import methods.TestUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class CartPage extends AbstractPage {
     TestUtils testUtils;
@@ -35,6 +35,8 @@ public class CartPage extends AbstractPage {
         testUtils.clickElement(deleteItemButtons.get(itemIndex));
         testUtils.waitUntilElementBeVisible(undoRemoveItem);
         int numberOfItemsAfterRemoving = deleteItemButtons.size();
+
+
         if (numberOfItemsAfterRemoving >= numberOfItemsBeforeRemoving) {
             throw new Exception("Element nie został usunięty");
         }
@@ -43,6 +45,7 @@ public class CartPage extends AbstractPage {
 
     public boolean isCartEmptyAfterRemovingItem(String expectedAlert) {
         try {
+
             String emptyCartMessage = testUtils.getElementText(driver.findElement(By.xpath("//*[text()='Your cart is currently empty.']")));
             return expectedAlert.equals(emptyCartMessage);
         } catch (NoSuchElementException e) {

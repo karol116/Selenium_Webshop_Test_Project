@@ -1,12 +1,12 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 <suite name="Suite1" verbose="1" thread-count="1" parallel="tests">
     <test name="Regression1" parallel="methods">
-        <parameter name="browser" value="EDGE" />
+        <parameter name="browser" value="CHROME" />
         <classes>
             <class name="org.selenium.FirstTestCase">
-<!--                <methods>-->
-<!--                    <include name="buyItemWithLogIn"/>-->
-<!--                </methods>-->
+                <methods>
+                    <include name="testToDelete"/>
+                </methods>
             </class>
         </classes>
     </test>
