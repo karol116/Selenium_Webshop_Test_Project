@@ -18,8 +18,18 @@ public class BillingAddress {
     }
 
     public BillingAddress() {
+
     }
 
+    public static BillingAddress getDefaultBillingAddress(User user){
+        return new BillingAddress()
+                .setFirstName("Adrian")
+                .setLastName("Noglywski")
+                .setAddress("32, Norawska")
+                .setCity("Niecieczow")
+                .setEmail(user.getEmail())
+                .setPostcode("34-656");
+    }
     public String getFirstName() {
         return firstName;
     }

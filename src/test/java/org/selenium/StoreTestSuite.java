@@ -10,7 +10,6 @@ import objects.User;
 import org.testng.annotations.Test;
 import pages.*;
 import utils.CookieUtils;
-import utils.FakerUtils;
 import utils.JacksonUtils;
 
 import javax.management.InstanceNotFoundException;
@@ -21,19 +20,8 @@ import static org.testng.Assert.assertTrue;
 public class StoreTestSuite extends BaseTest {
     @Test
     public void placeOrderAsRegularCustomer() throws Exception {
-        String userName = "testUserName" + new FakerUtils().generateRandomNumber();
-        User user = new User()
-                .setUsername(userName)
-                .setEmail(userName + "@mail.com")
-                .setPassword("stronPass3");
-
-        BillingAddress billingAddress = new BillingAddress()
-                .setFirstName("Adrian")
-                .setLastName("Noglywski")
-                .setAddress("32, Norawska")
-                .setCity("Niecieczow")
-                .setEmail(user.getEmail())
-                .setPostcode("34-656");
+        User user = User.getDefaultUser();
+        BillingAddress billingAddress = BillingAddress.getDefaultBillingAddress(user);
 
         //RestAssured
         SignupApi signupApi = new SignupApi();

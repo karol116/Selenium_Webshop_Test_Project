@@ -1,5 +1,7 @@
 package objects;
 
+import utils.FakerUtils;
+
 public class User {
     private String username;
     private String password;
@@ -15,6 +17,13 @@ public class User {
     }
 
     public User(){}
+    public static User getDefaultUser(){
+        String userName = "testUserName" + new FakerUtils().generateRandomNumber();
+        return new User()
+                .setUsername(userName)
+                .setEmail(userName + "@mail.com")
+                .setPassword("stronPass3");
+    }
 
     public User(String username, String password){
         this.username = username;
