@@ -5,10 +5,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class TestUtils {
-    WebDriver driver;
-    WebDriverWait wait;
+    private WebDriver driver;
+    private WebDriverWait wait;
 
     public TestUtils(WebDriver driver) {
         this.driver = driver;
@@ -28,6 +29,13 @@ public class TestUtils {
     public String getElementText(WebElement element) {
         waitUntilElementBeVisible(element);
         return element.getText();
+    }
+    public void waitForInvisibilityOfOverlays(List<WebElement> overlays){
+        if(!overlays.isEmpty()){
+            wait.until(ExpectedConditions.invisibilityOfAllElements(overlays));
+        } else{
+            System.err.println("Overlay not found. ");
+        }
     }
 
     public void clickElementOptional(WebElement element) {

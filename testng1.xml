@@ -3,7 +3,7 @@
 <!--    <test name="Regression1">-->
 <!--        <parameter name="browser" value="CHROME"/>-->
 <!--        <classes>-->
-<!--            <class name="org.selenium.FirstTestCase">-->
+<!--            <class name="org.selenium.StoreTestSuite">-->
 <!--                <methods>-->
 <!--                    <include name="setUp"/>-->
 <!--                    <include name="buyItemWithLogIn"/>-->
@@ -15,7 +15,7 @@
         <test name="Regression2">
             <parameter name="browser" value="FIREFOX"/>
             <classes>
-                <class name="org.selenium.FirstTestCase">
+                <class name="org.selenium.StoreTestSuite">
                     <methods>
                         <include name="setUp"/>
                         <include name="buyItemWithLogIn"/>

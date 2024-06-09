@@ -3,7 +3,7 @@
     <test name="Regression1" parallel="methods">
         <parameter name="browser" value="CHROME" />
         <classes>
-            <class name="org.selenium.FirstTestCase">
+            <class name="org.selenium.StoreTestSuite">
                 <methods>
                     <include name="testToDelete"/>
                 </methods>
@@ -13,7 +13,7 @@
 <!--    <test name="Regression2" thread-count="1" parallel="methods">-->
 <!--        <parameter name="browser" value="CHROME"/>-->
 <!--        <classes>-->
-<!--            <class name="org.selenium.FirstTestCase">-->
+<!--            <class name="org.selenium.StoreTestSuite">-->
 <!--&lt;!&ndash;                <methods>&ndash;&gt;-->
 <!--&lt;!&ndash;                    <include name="setUp"/>&ndash;&gt;-->
 <!--&lt;!&ndash;                    <include name="deleteItemFromCart"/>&ndash;&gt;-->

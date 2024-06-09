@@ -18,30 +18,11 @@ public class AddToCartApi {
         return cookies;
     }
 
-    public Response getCourt() {
-        Cookies cookies = new Cookies();
-
-        Response response = given().
-                baseUri(ConfigLoader.getInstance().getProperty("baseUrl")).
-                cookies(cookies).
-                log().all().
-                when().
-                get("/store").
-                then().
-                log().all().
-                extract().
-                response();
-        if (response.getStatusCode() != 200) {
-            throw new RuntimeException(
-                    "Failed to fetched the court, HTTP status code: " +
-                            response.getStatusCode()
-            );
-        }
-        return response;
+    public AddToCartApi(Cookies cookies){
+        this.cookies = cookies;
     }
-
     public Response addToCart(String productId, int quantity) {
-        Cookies cookies = new Cookies();
+//        Cookies cookies = new Cookies();
         Header header = new Header("content-Type", "application/x-www-form-urlencoded");
         Headers headers = new Headers(header);
 
@@ -50,7 +31,7 @@ public class AddToCartApi {
         body.put("quantity", String.valueOf(quantity));
 
         Response response = given().
-                baseUri(ConfigLoader.getInstance().getProperty("baseUrl") + "/store").
+                baseUri(ConfigLoader.getInstance().getProperty("baseUrl")).
                 headers(headers).
                 formParams(body).
                 cookies(cookies).

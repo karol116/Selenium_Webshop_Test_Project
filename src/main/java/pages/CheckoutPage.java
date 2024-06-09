@@ -5,15 +5,19 @@ import objects.BillingAddress;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import utils.PropertyUtils;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 public class CheckoutPage extends AbstractPage {
+    Properties properties = PropertyUtils.propertyLoader("src/test/resources/config.properties");
 
     @FindBy(xpath = "//select[@id='billing_country']")
     private WebElement countrySelect;
@@ -23,6 +27,8 @@ public class CheckoutPage extends AbstractPage {
 
     @FindBy(id = "payment_method_bacs")
     private WebElement directBankTransferRadioButton;
+    @FindBy(xpath = "//h2[text()='Billing address']/..//address")
+    private WebElement clientAddressBillingAddressSection;
 
     @FindBy(xpath = "//*[text()='Billing details']/..//label/*[@class='required']/../..//input")
     private List<WebElement> requiredFormInputs;
@@ -30,6 +36,11 @@ public class CheckoutPage extends AbstractPage {
     public CheckoutPage(WebDriver driver) {
         super(driver);
         testUtils = new TestUtils(driver);
+    }
+
+    public CheckoutPage openCheckoutPage() {
+        driver.navigate().to(properties.getProperty("baseUrl") + "/checkout/");
+        return new CheckoutPage(driver);
     }
 
     public CheckoutPage fillBillingForm(BillingAddress billingAddress) {
@@ -53,7 +64,7 @@ public class CheckoutPage extends AbstractPage {
         return this;
     }
 
-    public CheckoutPage clickPlaceOrder() {
+    public CheckoutPage selectDirectBankTransfer() {
         wait.until(ExpectedConditions.invisibilityOfAllElements(driver.findElements(By.xpath("//*[@class='blockUI blockMsg blockElement']"))));
         if (!directBankTransferRadioButton.isSelected()) {
             directBankTransferRadioButton.click();
@@ -61,10 +72,16 @@ public class CheckoutPage extends AbstractPage {
         return this;
     }
 
-    public CheckoutPage selectDirectBankTransfer() {
-        wait.until(ExpectedConditions.invisibilityOfAllElements(driver.findElements(By.xpath("//*[@class='blockUI blockMsg blockElement']"))));
+    public CheckoutPage clickPlaceOrder() throws InterruptedException {
+        testUtils.waitForInvisibilityOfOverlays(overlays);
+        wait.until(ExpectedConditions.elementToBeClickable(placeOrderButton));
+        Thread.sleep(3000);
         placeOrderButton.click();
         wait.until(ExpectedConditions.invisibilityOf(placeOrderButton));
         return this;
+    }
+
+    public String getClientAddressBillingAddressSection() {
+        return testUtils.getElementText(clientAddressBillingAddressSection);
     }
 }

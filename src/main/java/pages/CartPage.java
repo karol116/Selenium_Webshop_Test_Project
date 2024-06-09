@@ -6,8 +6,10 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import utils.PropertyUtils;
 
 import java.util.List;
+import java.util.Properties;
 
 public class CartPage extends AbstractPage {
     TestUtils testUtils;

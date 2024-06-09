@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public abstract class AbstractPage {
     protected WebDriver driver;
@@ -22,6 +23,8 @@ public abstract class AbstractPage {
 
     @FindBy(xpath = "//li[contains(@id, 'menu-item')]/a[text()='Account' and @class='menu-link']")
     private WebElement accountButton;
+    @FindBy(xpath = "//*[@class='blockUI blockMsg blockElement']")
+    List<WebElement> overlays;
 
     protected AbstractPage(WebDriver driver) {
         this.driver = driver;

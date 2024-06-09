@@ -2,13 +2,14 @@ package utils;
 
 import io.restassured.http.Cookie;
 import io.restassured.http.Cookies;
+import org.openqa.selenium.WebDriver;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CookieUtils {
 
-    public List<org.openqa.selenium.Cookie> convertRACookiesToSeleniumCookies(Cookies raCookies) {
+    private List<org.openqa.selenium.Cookie> convertRACookiesToSeleniumCookies(Cookies raCookies) {
         List<org.openqa.selenium.Cookie> seleniumCookies = new ArrayList<>();
         List<io.restassured.http.Cookie> raCookiesList = raCookies.asList();
 
@@ -26,5 +27,16 @@ public class CookieUtils {
             );
         }
         return seleniumCookies;
+    }
+
+    public WebDriver addRestAssuredCookiesToDriver(Cookies raCookies, WebDriver driver) {
+        List<org.openqa.selenium.Cookie> seleniumCookies = convertRACookiesToSeleniumCookies(raCookies);
+        seleniumCookies
+                .forEach(
+                        sCookie -> driver
+                                .manage()
+                                .addCookie(sCookie)
+                );
+        return driver;
     }
 }
