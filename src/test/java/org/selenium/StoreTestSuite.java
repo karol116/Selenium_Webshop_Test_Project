@@ -21,7 +21,7 @@ import static org.testng.Assert.assertTrue;
 public class StoreTestSuite extends BaseTest {
     @Test
     public void placeOrderAsRegularCustomer() throws Exception {
-        String userName = "testUserName" + new FakerUtils().generateRandomumber();
+        String userName = "testUserName" + new FakerUtils().generateRandomNumber();
         User user = new User()
                 .setUsername(userName)
                 .setEmail(userName + "@mail.com")

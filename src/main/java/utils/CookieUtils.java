@@ -1,6 +1,5 @@
 package utils;
 
-import io.restassured.http.Cookie;
 import io.restassured.http.Cookies;
 import org.openqa.selenium.WebDriver;
 

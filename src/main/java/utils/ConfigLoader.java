@@ -24,6 +24,5 @@ public class ConfigLoader {
         } else {
             throw new RuntimeException("propoerty is not specified in the config.prpoerties file");
         }
-
     }
 }

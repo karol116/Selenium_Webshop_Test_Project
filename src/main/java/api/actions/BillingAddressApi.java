@@ -1,5 +1,6 @@
 package api.actions;
 
+import contants.Endpoint;
 import io.restassured.http.Cookies;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
@@ -8,12 +9,9 @@ import objects.BillingAddress;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import utils.ConfigLoader;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static io.restassured.RestAssured.given;
 
 public class BillingAddressApi {
     private Cookies cookies;
@@ -27,14 +25,7 @@ public class BillingAddressApi {
     }
 
     public Response getAddress() {
-        Response response = given().
-                baseUri(ConfigLoader.getInstance().getProperty("baseUrl")).
-                cookies(cookies).log().all().
-                when().
-                get("/account/edit-address/billing").
-                then().
-                extract().
-                response();
+        Response response = Request.get(Endpoint.EDIT_BILLING_ADDRESS, cookies);
         if (response.getStatusCode() != 200) {
             throw new RuntimeException(
                     "Failed to fetched the account, HTTP status code: " +
@@ -52,12 +43,9 @@ public class BillingAddressApi {
     }
 
     public Response fillBillingAddress(BillingAddress billingAddress) {
-
         Header header = new Header("Content-Type", "application/x-www-form-urlencoded");
-//        Header header2 = new Header("Accept-Language", "pl-PL");
-
+//        Header header2 = new Header("Accept-Language", "pl-PL");//FIXME: enable entering of polish letters
         Headers headers = new Headers(header);
-
 
         Map<String, Object> body = new HashMap<>();
         body.put("billing_first_name", billingAddress.getFirstName());
@@ -66,29 +54,15 @@ public class BillingAddressApi {
         body.put("billing_address_1", billingAddress.getAddress());
         body.put("billing_city", billingAddress.getCity());
         body.put("billing_postcode", billingAddress.getPostcode());
-        body.put("billing_phone", "+48768768526");
-//        body.put("_wp_http_referer", "/account/edit-address/billing/");
         body.put("woocommerce-edit-address-nonce", getFetchEditAddressNonceValueUsingJsoup());
         body.put("action", "edit_address");
         body.put("save_address", "Save address");
         body.put("billing_email", billingAddress.getEmail());
 
-
-        Response response = given().
-                baseUri(ConfigLoader.getInstance().getProperty("baseUrl")).
-                headers(headers).
-                formParams(body).
-                cookies(cookies).
-                log().all().
-                when().
-                post("/account/edit-address/billing/").
-                then().
-                log().all().
-                extract().
-                response();
+        Response response = Request.post(Endpoint.EDIT_BILLING_ADDRESS, cookies, headers, body);
         if (response.getStatusCode() != 302) {
             throw new RuntimeException(
-                    "Failed to fetched the account, HTTP status code: " +
+                    "Failed to fill billing address, HTTP status code: " +
                             response.getStatusCode()
             );
         }
@@ -96,4 +70,3 @@ public class BillingAddressApi {
         return response;
     }
 }
-

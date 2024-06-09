@@ -5,7 +5,6 @@ import objects.BillingAddress;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -27,6 +26,7 @@ public class CheckoutPage extends AbstractPage {
 
     @FindBy(id = "payment_method_bacs")
     private WebElement directBankTransferRadioButton;
+
     @FindBy(xpath = "//h2[text()='Billing address']/..//address")
     private WebElement clientAddressBillingAddressSection;
 
