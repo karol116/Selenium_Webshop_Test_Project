@@ -33,6 +33,24 @@ public class CheckoutPage extends AbstractPage {
     @FindBy(xpath = "//*[text()='Billing details']/..//label/*[@class='required']/../..//input")
     private List<WebElement> requiredFormInputs;
 
+    @FindBy(className = "showcoupon")
+    private WebElement showCoupon;
+
+    @FindBy(xpath = "//input[@name = 'coupon_code']")
+    private WebElement couponCodeInput;
+
+    @FindBy(xpath = "//button[@name = 'apply_coupon']")
+    private WebElement confirmCouponButton;
+
+    @FindBy(xpath = "//*[@class= 'order-total']//*[@class = 'woocommerce-Price-amount amount']/*")
+    private WebElement orderTotalAmount;
+
+    @FindBy(xpath = "//*[@class= 'cart-subtotal']//*[@class = 'woocommerce-Price-amount amount']/*")
+    private WebElement orderSubtotalAmount;
+
+    @FindBy(xpath = "//*[@data-title= 'Shipping']//*[@class = 'woocommerce-Price-amount amount']/*")
+    private WebElement shippingFlatRateAmount;
+
     public CheckoutPage(WebDriver driver) {
         super(driver);
         testUtils = new TestUtils(driver);
@@ -83,5 +101,50 @@ public class CheckoutPage extends AbstractPage {
 
     public String getClientAddressBillingAddressSection() {
         return testUtils.getElementText(clientAddressBillingAddressSection);
+    }
+
+    public CheckoutPage addCoupon(String value) {
+        unrollCouponCodeInput();
+        testUtils.insertValue(couponCodeInput, value);
+        confirmCouponButton.click();
+        testUtils.waitForInvisibilityOfOverlays(overlays);
+        return this;
+    }
+
+    public long countCharacterOccurrences(String sentence, char characterToCount) {
+        long characterOccurrencesCounter = 0;
+        for (int i = 0; i < sentence.length(); i++) {
+            if (sentence.charAt(i) == characterToCount) {
+                characterOccurrencesCounter++;
+            }
+        }
+        return characterOccurrencesCounter;
+    }
+
+    private void unrollCouponCodeInput() {
+        if (!couponCodeInput.isDisplayed()) {
+            showCoupon.click();
+        } else {
+            System.err.println("Coupon code input field was visible. ");
+        }
+    }
+
+    public Double getOrderTotalAmount() {
+        String totalAmount = testUtils.getElementText(orderTotalAmount);
+        totalAmount = totalAmount.substring(1);//To remove currency
+        return Double.valueOf(totalAmount);
+    }
+
+    public Double getOrderSubtotalAmount() {
+        String totalAmount = testUtils.getElementText(orderSubtotalAmount);
+        totalAmount = totalAmount.substring(1);//To remove currency
+        return Double.valueOf(totalAmount);
+    }
+
+    public Double getShippingFlatRate() {
+        String flatRate = testUtils.getElementText(shippingFlatRateAmount);
+        flatRate = flatRate.substring(1);//To remove currency
+
+        return Double.valueOf(flatRate);
     }
 }

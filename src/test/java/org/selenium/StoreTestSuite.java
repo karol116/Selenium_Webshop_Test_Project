@@ -32,7 +32,7 @@ public class StoreTestSuite extends BaseTest {
         billingAddressApi.fillBillingAddress(billingAddress);
 
         AddToCartApi addToCartApi = new AddToCartApi(raRegisterCookies);
-        addToCartApi.addToCart("1196", 1);
+        addToCartApi.addToCart(1196, 1);
 
         //RestAssured -> Selenium
         CookieUtils cookieUtils = new CookieUtils();
@@ -47,6 +47,9 @@ public class StoreTestSuite extends BaseTest {
 
         assertTrue(checkoutPage.isTextVisibleOnPage("Thank you. Your order has been received."));
         assertTrue(clientAddress.contains(billingAddress.getFirstName() + " " + billingAddress.getLastName()));
+        checkoutPage.countCharacterOccurrences(clientAddress, 'e');
+
+
     }
 
     @Test

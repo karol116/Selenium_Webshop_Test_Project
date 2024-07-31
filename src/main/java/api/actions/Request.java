@@ -30,7 +30,7 @@ public class Request {
                 cookies(cookies).
                 when().
                 post(endpoint.url).
-                then().log().ifError().
+                then().log().all().
                 extract().
                 response();
     }

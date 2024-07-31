@@ -10,19 +10,21 @@ import java.util.List;
 public class TestUtils {
     private WebDriver driver;
     private WebDriverWait wait;
+    private WebDriverWait waitBooleanCondition;
 
     public TestUtils(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver, Duration.ofMillis(5000));
+        wait = new WebDriverWait(driver, Duration.ofMillis(10000));
+        waitBooleanCondition = new WebDriverWait(driver, Duration.ofMillis(5000));
     }
 
     public void waitUntilElementBeVisible(WebElement element) {
         wait.until(ExpectedConditions.visibilityOf(element));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
     public void clickElement(WebElement element) {
         waitUntilElementBeVisible(element);
+        wait.until(ExpectedConditions.elementToBeClickable(element));
         element.click();
     }
 
@@ -30,19 +32,33 @@ public class TestUtils {
         waitUntilElementBeVisible(element);
         return element.getText();
     }
-    public void waitForInvisibilityOfOverlays(List<WebElement> overlays){
-        if(!overlays.isEmpty()){
+
+    public void insertValue(WebElement element, String value) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        element.sendKeys(value);
+        element.sendKeys(Keys.TAB);
+    }
+
+
+    public void waitForInvisibilityOfOverlays(List<WebElement> overlays) {
+        if (!overlays.isEmpty()) {
             wait.until(ExpectedConditions.invisibilityOfAllElements(overlays));
-        } else{
+        } else {
             System.err.println("Overlay not found. ");
         }
     }
 
-    public void clickElementOptional(WebElement element) {
-        try {
-            clickElement(element);
-        } catch (ElementNotInteractableException e) {
-            System.out.println("Element not found" + element.getText());
+    public boolean isElementVisible(WebElement element) {
+        if (element.isDisplayed()) {
+            return true;
+        } else {
+            try {
+                waitBooleanCondition.until(ExpectedConditions.visibilityOf(element));
+                return element.isDisplayed();
+            } catch (NoSuchElementException e) {
+                return false;
+            }
         }
     }
+
 }

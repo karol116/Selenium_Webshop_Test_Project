@@ -23,7 +23,7 @@ public abstract class AbstractPage {
 
     @FindBy(xpath = "//li[contains(@id, 'menu-item')]/a[text()='Account' and @class='menu-link']")
     private WebElement accountButton;
-    @FindBy(xpath = "//*[@class='blockUI blockMsg blockElement']")
+    @FindBy(xpath = "//*[@class='blockUI blockMsg blockElement'] | //*[contains(@class, 'lockUI')]")
     List<WebElement> overlays;
 
     protected AbstractPage(WebDriver driver) {

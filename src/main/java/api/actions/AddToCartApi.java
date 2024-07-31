@@ -8,6 +8,7 @@ import io.restassured.response.Response;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class AddToCartApi {
     private Cookies cookies;
@@ -16,10 +17,16 @@ public class AddToCartApi {
         return cookies;
     }
 
-    public AddToCartApi(Cookies cookies){
+    public AddToCartApi(Cookies cookies) {
+//        this.cookies = Optional.ofNullable(cookies).orElse(new Cookies());
         this.cookies = cookies;
     }
-    public Response addToCart(String productId, int quantity) {
+    public AddToCartApi() {
+        this.cookies = new Cookies();
+    }
+
+
+    public Response addToCart(int productId, int quantity) {
         Header header = new Header("content-Type", "application/x-www-form-urlencoded");
         Headers headers = new Headers(header);
 
@@ -27,7 +34,7 @@ public class AddToCartApi {
         body.put("product_id", productId);
         body.put("quantity", String.valueOf(quantity));
 
-        Response response = Request.post(Endpoint.ADD_TO_CART,cookies,headers,body);
+        Response response = Request.post(Endpoint.ADD_TO_CART, cookies, headers, body);
 
         if (response.getStatusCode() != 200) {
             throw new RuntimeException(
@@ -38,4 +45,5 @@ public class AddToCartApi {
         this.cookies = response.getDetailedCookies();
         return response;
     }
+
 }
